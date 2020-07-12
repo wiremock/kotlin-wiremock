@@ -7,3 +7,5 @@ before_install:
   - chmod +x gradle/wrapper/gradle-wrapper.jar
 script:
   - ./gradlew test build
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
