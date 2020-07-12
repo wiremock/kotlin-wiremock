@@ -116,48 +116,44 @@ Maven
           delay medianMs 100 sigma 0.1
       }       
       ``` 
-* Chaining 
-   
-         ```kotlin
-          val bobResponse: SpecifyResponse = {
-              body = """
-                  {
-                    "id": 1,
-                    "name": "Bob"
-                  }
-                  """
-          }
-      
-          wiremock.post {
-              url equalTo "/users"
-          } and {
-              body contains "id" equalTo 1
-          } and {
-              body contains "isAdmin" equalTo true
-          } returns {
-              header = "Content-Type" to "application/json"
-          } and bobResponse and {
-              statusCode = 201
-          }
-         ```
+* Chaining
+     ```kotlin
+      val bobResponse: SpecifyResponse = {
+          body = """
+              {
+                "id": 1,
+                "name": "Bob"
+              }
+              """
+      }
+  
+      wiremock.post {
+          url equalTo "/users"
+      } and {
+          body contains "id" equalTo 1
+      } and {
+          body contains "isAdmin" equalTo true
+      } returns {
+          header = "Content-Type" to "application/json"
+      } and bobResponse and {
+          statusCode = 201
+      }
+     ```
 * Scenarios - stateful behaviour
-   * toState
-   * whenState
-   * clearState
-       ```kotlin
-        wiremock.post {
-            url equalTo "/users"
-        } returnsJson bobResponse and {
-            toState = "Alice"
-        }
+   ```kotlin
+    wiremock.post {
+        url equalTo "/users"
+    } returnsJson bobResponse and {
+        toState = "Alice"
+    }
 
-        wiremock.post {
-            url equalTo "/users"
-            whenState = "Alice"
-        } returnsJson aliceResponse and {
-            clearState = true
-        }
-       ```
+    wiremock.post {
+        url equalTo "/users"
+        whenState = "Alice"
+    } returnsJson aliceResponse and {
+        clearState = true
+    }
+   ```
 #### More examples
 
 * [Examples.kt](src/test/kotlin/com/marcinziolo/kotlin/wiremock/ExampleTest.kt)
