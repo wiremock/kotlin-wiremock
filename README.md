@@ -1,4 +1,5 @@
 # Kotlin DSL for Wiremock
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.marcinziolo/kotlin-wiremock/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.marcinziolo/kotlin-wiremock)
 [![Build Status](https://travis-ci.org/marcinziolo/kotlin-wiremock.svg?branch=master)](https://travis-ci.org/marcinziolo/kotlin-wiremock)
 [![codecov](https://codecov.io/gh/marcinziolo/kotlin-wiremock/branch/master/graph/badge.svg)](https://codecov.io/gh/marcinziolo/kotlin-wiremock)
 
