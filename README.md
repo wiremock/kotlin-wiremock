@@ -2,7 +2,7 @@
 
 This is library provides handy kotlin dsl for [Wiremock](http://wiremock.org/) stubbing.
 
-###Getting started
+### Getting started
 
 Gradle
 ```kotlin
@@ -19,7 +19,7 @@ Maven
     <scope>test</scope>
 </dependency>
 ```
-###Features
+### Features
 
 * Request Matching
     * Http methods (post/get/put/delete/patch/options/head/trace/any)
