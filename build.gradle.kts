@@ -3,7 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.61"
     id("maven-publish")
     id("io.gitlab.arturbosch.detekt") version "1.1.1"
-
+    jacoco
     `java-library`
 }
 
@@ -45,4 +45,14 @@ publishing {
 
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+    reports {
+        html.isEnabled = true
+        xml.isEnabled = true
+        csv.isEnabled = false
+    }
 }

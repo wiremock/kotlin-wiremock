@@ -1,5 +1,6 @@
 # Kotlin DSL for Wiremock
 [![Build Status](https://travis-ci.org/marcinziolo/kotlin-wiremock.svg?branch=master)](https://travis-ci.org/marcinziolo/kotlin-wiremock)
+[![codecov](https://codecov.io/gh/marcinziolo/kotlin-wiremock/branch/master/graph/badge.svg)](https://codecov.io/gh/marcinziolo/kotlin-wiremock)
 
 This is library provides handy kotlin dsl for [Wiremock](http://wiremock.org/) stubbing.
 
