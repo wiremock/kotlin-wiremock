@@ -1,3 +1,4 @@
+import com.jfrog.bintray.gradle.BintrayExtension
 import nu.studer.gradle.credentials.domain.CredentialsContainer
 
 plugins {
@@ -9,6 +10,7 @@ plugins {
     signing
     `maven-publish`
     id("nu.studer.credentials") version "1.0.7"
+    id("com.jfrog.bintray") version "1.8.5"
 }
 
 group = "com.marcinziolo"
@@ -61,6 +63,7 @@ java {
 val credentials: CredentialsContainer by project.extra
 val ossrhUser = (System.getProperty("ossrhUser") ?: credentials.getProperty("ossrhUser") ?: "-") as String
 val ossrhPassword = (System.getProperty("ossrhPassword") ?: credentials.getProperty("ossrhPassword") ?: "-") as String
+val bintrayKey = (System.getProperty("bintrayKey") ?: credentials.getProperty("bintrayKey") ?: "-") as String
 
 publishing {
     publications {
@@ -114,6 +117,23 @@ publishing {
     }
 }
 
+bintray {
+    user = ossrhUser
+    key = bintrayKey
+    publish = true
+    setPublications("mavenJava")
+    pkg(delegateClosureOf<BintrayExtension.PackageConfig> {
+        repo = "maven"
+        name = "kotlin-wiremock"
+        websiteUrl = "https://github.com/marcinziolo/kotlin-wiremock"
+        githubRepo = "marcinziolo/kotlin-wiremock"
+        vcsUrl = "https://github.com/marcinziolo/kotlin-wiremock"
+        description = "Handy Kotlin DSL for Wiremock stubbing"
+        setLabels("kotlin")
+        setLicenses("Apache-2.0")
+        desc = description
+    })
+}
 tasks.javadoc {
     if (JavaVersion.current().isJava9Compatible) {
         (options as StandardJavadocDocletOptions).addBooleanOption("html5", true)
