@@ -26,7 +26,7 @@ Maven
 
 * Request Matching
     * Http methods (post/get/put/delete/patch/options/head/trace/any)
-        ```kotin
+        ```kotlin
         wiremock.post {
             url equalTo "/users/1"
         } returnsJson {
