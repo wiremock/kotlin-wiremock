@@ -2,7 +2,7 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import nu.studer.gradle.credentials.domain.CredentialsContainer
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.61"
+    id("org.jetbrains.kotlin.jvm") version "1.5.10"
     id("maven-publish")
     id("io.gitlab.arturbosch.detekt") version "1.17.1"
     jacoco
@@ -58,6 +58,10 @@ tasks.jacocoTestReport {
 java {
     withJavadocJar()
     withSourcesJar()
+}
+
+jacoco {
+    toolVersion = "0.8.7"
 }
 
 val credentials: CredentialsContainer by project.extra
