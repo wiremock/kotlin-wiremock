@@ -9,6 +9,7 @@ infix fun Wrapper<in Delay>.fixedMs(delay: Int) {
     this.value = FixedDelay(delay)
 }
 
+@Suppress("UNCHECKED_CAST")
 infix fun Wrapper<in Delay>.medianMs(median: Int): MedianStep {
     val normalDistribution =
         NormalDistributionDelay(median, 0.0)

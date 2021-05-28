@@ -22,6 +22,7 @@ infix fun MutableMap<String, Constraint>.contains(key: String): ConstraintContai
     return ConstraintContainsStep(key, this)
 }
 
+@Suppress("UNCHECKED_CAST")
 infix fun <T> ContainsStep<T>.equalTo(value: String) {
     this.map[this.key] = EqualTo(value) as T
 }
@@ -38,14 +39,17 @@ infix fun ContainsStep<Constraint>.equalTo(value: Double) {
     this.map[this.key] = StronglyEqualTo(value)
 }
 
+@Suppress("UNCHECKED_CAST")
 infix fun <T> ContainsStep<T>.like(value: String) {
     this.map[this.key] = Like(value) as T
 }
 
+@Suppress("UNCHECKED_CAST")
 infix fun <T> ContainsStep<T>.contains(value: String) {
     this.map[this.key] = Like(".*$value.*") as T
 }
 
+@Suppress("UNCHECKED_CAST")
 infix fun <T> ContainsStep<T>.notLike(value: String) {
     this.map[this.key] = NotLike(value) as T
 }
