@@ -18,8 +18,7 @@ group = "com.marcinziolo"
 version = "1.0.0"
 
 repositories {
-    mavenLocal()
-    jcenter()
+    mavenCentral()
 }
 
 detekt {
