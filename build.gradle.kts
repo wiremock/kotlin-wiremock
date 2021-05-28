@@ -4,7 +4,7 @@ import nu.studer.gradle.credentials.domain.CredentialsContainer
 plugins {
     id("org.jetbrains.kotlin.jvm") version "1.3.61"
     id("maven-publish")
-    id("io.gitlab.arturbosch.detekt") version "1.1.1"
+    id("io.gitlab.arturbosch.detekt") version "1.17.1"
     jacoco
     `java-library`
     signing

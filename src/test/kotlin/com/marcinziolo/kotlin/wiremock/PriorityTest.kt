@@ -5,7 +5,6 @@ import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import org.junit.jupiter.api.Test
 
-
 internal class PriorityTest : AbstractTest() {
 
     @Test

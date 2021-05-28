@@ -4,7 +4,6 @@ import io.restassured.module.kotlin.extensions.Then
 import io.restassured.module.kotlin.extensions.When
 import org.junit.jupiter.api.Test
 
-
 class RequestUrlTest : AbstractTest() {
     @Test
     fun `url equalTo`() {
