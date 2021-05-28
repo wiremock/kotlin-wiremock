@@ -11,6 +11,7 @@ plugins {
     `maven-publish`
     id("nu.studer.credentials") version "1.0.7"
     id("com.jfrog.bintray") version "1.8.5"
+    id("com.github.ben-manes.versions") version "0.38.0"
 }
 
 group = "com.marcinziolo"
