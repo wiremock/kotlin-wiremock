@@ -1,6 +1,6 @@
 package com.marcinziolo.kotlin.wiremock
 
-import java.util.*
+import java.util.UUID
 
 sealed class ContainsStep<T>(open val key: String, open val map: MutableMap<String, T>)
 
