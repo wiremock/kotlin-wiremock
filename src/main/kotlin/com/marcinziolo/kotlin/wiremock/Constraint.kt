@@ -7,6 +7,7 @@ data class Like(val value: String) : StringConstraint()
 data class NotLike(val value: String) : StringConstraint()
 object Whatever : StringConstraint()
 data class StronglyEqualTo<T>(val value: T): Constraint()
+data class EqualToJson(val value: String): Constraint()
 
 infix fun Wrapper<in StringConstraint>.equalTo(value: String) {
     this.value = EqualTo(value)
