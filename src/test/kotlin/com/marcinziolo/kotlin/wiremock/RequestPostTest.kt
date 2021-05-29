@@ -159,4 +159,71 @@ class RequestPostTest : AbstractTest() {
             statusCode(200)
         }
     }
+
+    @Test
+    fun `body equal to`() {
+        wiremock.post {
+            url equalTo "/hello"
+            body equalTo """
+                {"pet":"dog"}
+            """
+        } returnsJson { }
+
+        Given {
+            body(//language=JSON
+                    """
+                {"pet":"dog"}
+            """
+            )
+        } When {
+            post("$url/hello")
+        } Then {
+            statusCode(200)
+        }
+    }
+
+    @Test
+    fun `body equal to negative`() {
+        wiremock.post {
+            url equalTo "/hello"
+            body equalTo """
+                {"pet":"cat"}
+            """
+        } returnsJson { }
+
+        Given {
+            body(//language=JSON
+                    """]
+                {"pet":"dog"}
+            """
+            )
+        } When {
+            post("$url/hello")
+        } Then {
+            statusCode(404)
+        }
+    }
+
+    @Test
+    fun `body equal to negative mix`() {
+        wiremock.post {
+            url equalTo "/hello"
+            body equalTo """
+                {"pet":"dog"}
+            """
+            body contains "pet" equalTo "cat"
+        } returnsJson { }
+
+        Given {
+            body(//language=JSON
+                    """
+                {"pet":"dog"}
+            """
+            )
+        } When {
+            post("$url/hello")
+        } Then {
+            statusCode(404)
+        }
+    }
 }
