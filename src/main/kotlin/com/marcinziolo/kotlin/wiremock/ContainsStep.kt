@@ -1,5 +1,7 @@
 package com.marcinziolo.kotlin.wiremock
 
+import java.util.UUID
+
 sealed class ContainsStep<T>(open val key: String, open val map: MutableMap<String, T>)
 
 data class ConstraintContainsStep(
@@ -15,6 +17,12 @@ data class StringContainsStep(
 infix fun MutableMap<String, StringConstraint>.contains(key: String): StringContainsStep {
     this[key] = Whatever
     return StringContainsStep(key, this)
+}
+
+infix fun MutableMap<String, Constraint>.equalTo(json: String): ConstraintContainsStep {
+    val key = UUID.randomUUID().toString()
+    this[key] = EqualToJson(json)
+    return ConstraintContainsStep(key, this)
 }
 
 infix fun MutableMap<String, Constraint>.contains(key: String): ConstraintContainsStep {
