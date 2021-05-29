@@ -2,23 +2,23 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import nu.studer.gradle.credentials.domain.CredentialsContainer
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.3.61"
+    id("org.jetbrains.kotlin.jvm") version "1.5.10"
     id("maven-publish")
-    id("io.gitlab.arturbosch.detekt") version "1.1.1"
+    id("io.gitlab.arturbosch.detekt") version "1.17.1"
     jacoco
     `java-library`
     signing
     `maven-publish`
     id("nu.studer.credentials") version "1.0.7"
     id("com.jfrog.bintray") version "1.8.5"
+    id("com.github.ben-manes.versions") version "0.38.0"
 }
 
 group = "com.marcinziolo"
 version = "1.0.0"
 
 repositories {
-    mavenLocal()
-    jcenter()
+    mavenCentral()
 }
 
 detekt {
@@ -43,6 +43,7 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+    maxParallelForks = (Runtime.getRuntime().availableProcessors() / 2).takeIf { it > 0 } ?: 1
     finalizedBy(tasks.jacocoTestReport)
 }
 
@@ -58,6 +59,10 @@ tasks.jacocoTestReport {
 java {
     withJavadocJar()
     withSourcesJar()
+}
+
+jacoco {
+    toolVersion = "0.8.7"
 }
 
 val credentials: CredentialsContainer by project.extra

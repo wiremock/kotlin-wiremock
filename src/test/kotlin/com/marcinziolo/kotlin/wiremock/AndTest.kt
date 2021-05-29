@@ -6,7 +6,6 @@ import io.restassured.module.kotlin.extensions.When
 import org.hamcrest.Matchers.equalTo
 import org.junit.jupiter.api.Test
 
-
 class AndTest : AbstractTest() {
     @Test
     fun `request and`() {

@@ -6,15 +6,12 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration.options
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.BeforeEach
 
+@Suppress("UnnecessaryAbstractClass")
 abstract class AbstractTest {
     private val port = findRandomOpenPort()
-    val wiremock: WireMockServer
+    val wiremock: WireMockServer = WireMockServer(options().port(port).notifier(ConsoleNotifier(true)))
     val url
         get() = "http://localhost:$port"
-
-    init {
-        wiremock = WireMockServer(options().port(port).notifier(ConsoleNotifier(true)))
-    }
 
     @BeforeEach
     fun setUp() {

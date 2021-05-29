@@ -21,7 +21,7 @@ class ResponseDelayTest : AbstractTest() {
             """
             delay fixedMs 100
         }
-        for (x in (0..3)) {
+        repeat(4) {
             When {
                 get("$url/hello")
             } Then {
