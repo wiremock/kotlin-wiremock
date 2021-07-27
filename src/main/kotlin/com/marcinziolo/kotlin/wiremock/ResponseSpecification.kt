@@ -7,10 +7,10 @@ class ResponseSpecification {
     var body = ""
     var statusCode = 200
     @SuppressWarnings("VariableNaming")
-    var __headers: MutableMap<String, String> = mutableMapOf()
+    var __headers: MutableMap<String, MutableList<String>> = mutableMapOf()
     var header: Pair<String, String> = "" to ""
         set(value) {
-            __headers[value.first] = value.second
+            __headers.getOrPut(value.first) { mutableListOf() } += value.second
             field = value
         }
     var delay = FixedDelay(0)
