@@ -18,7 +18,7 @@ fun ResponseSpecification.decorateResponseDefinitionBuilder(
         is NormalDistributionDelay ->
             responseDefinitionBuilder.withLogNormalRandomDelay(delay.median.toDouble(), delay.sigma)
     }
-    __headers.forEach { responseDefinitionBuilder.withHeader(it.key, it.value) }
+    __headers.forEach { (key, values) -> responseDefinitionBuilder.withHeader(key, *values.toTypedArray()) }
 
     return responseDefinitionBuilder
 }
