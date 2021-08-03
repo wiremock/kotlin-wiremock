@@ -5,6 +5,7 @@ import com.marcinziolo.kotlin.wiremock.FixedDelay
 import com.marcinziolo.kotlin.wiremock.NormalDistributionDelay
 import com.marcinziolo.kotlin.wiremock.ResponseSpecification
 
+@SuppressWarnings("SpreadOperator")
 fun ResponseSpecification.decorateResponseDefinitionBuilder(
     responseDefinitionBuilder: ResponseDefinitionBuilder
 ): ResponseDefinitionBuilder {
