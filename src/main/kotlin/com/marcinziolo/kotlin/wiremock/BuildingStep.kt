@@ -5,7 +5,15 @@ import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 import com.github.tomakehurst.wiremock.client.WireMock
 import java.util.UUID
 
-data class BuildingStep(
+data class DefaultBuildingStep(
+    val id: UUID? = null,
+    val method: Method,
+    val specifyRequestList: List<SpecifyRequest>,
+    val specifyResponseList: List<SpecifyResponse> = emptyList(),
+    val responseDefinitionBuilder: ResponseDefinitionBuilder = WireMock.aResponse()
+)
+
+data class ServerBuildingStep(
     val id: UUID? = null,
     val wireMockServer: WireMockServer,
     val method: Method,

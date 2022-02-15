@@ -1,3 +1,4 @@
 package com.marcinziolo.kotlin.wiremock
 
-data class ReturnsStep(val buildingStep: BuildingStep)
+data class ServerReturnsStep(val buildingStep: ServerBuildingStep)
+data class DefaultReturnsStep(val buildingStep: DefaultBuildingStep)

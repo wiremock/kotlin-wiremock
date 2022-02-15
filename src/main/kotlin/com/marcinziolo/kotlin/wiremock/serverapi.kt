@@ -25,32 +25,32 @@ fun WireMockServer.any(specifyRequest: SpecifyRequest) = requestBuilderStep(spec
 private fun WireMockServer.requestBuilderStep(
     specifyRequest: SpecifyRequest,
     method: Method
-) = BuildingStep(
+) = ServerBuildingStep(
     wireMockServer = this,
     method = method,
     specifyRequestList = listOf(specifyRequest)
 )
 
-infix fun BuildingStep.and(specifyRequest: SpecifyRequest) =
+infix fun ServerBuildingStep.and(specifyRequest: SpecifyRequest) =
     copy(specifyRequestList = specifyRequestList + specifyRequest)
 
-infix fun BuildingStep.returnsJson(specifyResponse: SpecifyResponse) =
+infix fun ServerBuildingStep.returnsJson(specifyResponse: SpecifyResponse) =
     this returns {
         statusCode = 200
         header = "Content-Type" to "application/json"
     } and specifyResponse
 
-infix fun BuildingStep.returns(specifyResponse: SpecifyResponse) =
+infix fun ServerBuildingStep.returns(specifyResponse: SpecifyResponse) =
     copy(specifyResponseList = specifyResponseList + specifyResponse)
         .let {
-            val returnsStep = ReturnsStep(it)
+            val returnsStep = ServerReturnsStep(it)
             returnsStep.buildingStep
                 .assignId()
                 .compute()
             returnsStep
         }
 
-infix fun ReturnsStep.and(specifyResponse: SpecifyResponse) =
+infix fun ServerReturnsStep.and(specifyResponse: SpecifyResponse) =
     copy(buildingStep = buildingStep.copy(specifyResponseList = buildingStep.specifyResponseList + specifyResponse))
         .let {
             it.buildingStep
@@ -59,14 +59,14 @@ infix fun ReturnsStep.and(specifyResponse: SpecifyResponse) =
             it
         }
 
-private fun BuildingStep.assignId(): BuildingStep {
+private fun ServerBuildingStep.assignId(): ServerBuildingStep {
     if (id != null) {
         wireMockServer.removeStubMapping(wireMockServer.getSingleStubMapping(id))
     }
     return this.copy(id = UUID.randomUUID())
 }
 
-private fun BuildingStep.compute(): BuildingStep {
+private fun ServerBuildingStep.compute(): ServerBuildingStep {
     val requestSpecification = RequestSpecification
         .create(specifyRequestList)
     val responseSpecification = ResponseSpecification
@@ -93,4 +93,3 @@ private infix fun RequestSpecification.copyScenariosAttributesFrom(
     toState = toState ?: responseSpecification.toState
     clearState = clearState || responseSpecification.clearState
 }
-
