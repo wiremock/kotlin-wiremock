@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test
 class AndExtensionTest {
     @Test
     fun `request and`(wmRuntimeInfo: WireMockRuntimeInfo) {
-        wireMockGet {
+        mockGet {
             url equalTo "/hello"
         } and {
             headers contains "User-Agent" equalTo "curl"
@@ -31,7 +31,7 @@ class AndExtensionTest {
 
     @Test
     fun `response and`(wmRuntimeInfo: WireMockRuntimeInfo) {
-        wireMockGet {
+        mockGet {
             url equalTo "/hello"
         } returns {
             header = "Content-Type" to "application/json"

@@ -21,7 +21,7 @@ class ExampleExtensionTest {
 
     @Test
     fun `url equalTo`() {
-        wireMockGet {
+        mockGet {
             url equalTo "/users/1"
         } returns {
             header = "Content-Type" to "application/json"
@@ -45,7 +45,7 @@ class ExampleExtensionTest {
 
     @Test
     fun `returns json`() {
-        wireMockGet {
+        mockGet {
             url like "/users/.*"
         } returnsJson {
             body = """
@@ -85,7 +85,7 @@ class ExampleExtensionTest {
     @Test
 
     fun `body checking`() {
-        wireMockPost {
+        mockPost {
             url equalTo "/users"
             body contains "id" equalTo 1
             body contains "isAdmin" equalTo true
@@ -113,7 +113,7 @@ class ExampleExtensionTest {
 
     @Test
     fun `and`() {
-        wireMockPost {
+        mockPost {
             url equalTo "/users"
         } and {
             body contains "id" equalTo 1
@@ -145,7 +145,7 @@ class ExampleExtensionTest {
 
     @Test
     fun `delay`() {
-        wireMockPost {
+        mockPost {
             url equalTo "/users"
         } returnsJson {
             delay fixedMs 100
@@ -172,13 +172,13 @@ class ExampleExtensionTest {
 
     @Test
     fun `scenarios`() {
-        wireMockPost {
+        mockPost {
             url equalTo "/users"
         } returnsJson bobResponse and {
             toState = "Alice"
         }
 
-        wireMockPost {
+        mockPost {
             url equalTo "/users"
             whenState = "Alice"
         } returnsJson aliceResponse and {
