@@ -155,6 +155,43 @@ Maven
         clearState = true
     }
    ```
+* WiremockTest Junit5 extension
+    ```kotlin
+    @WireMockTest
+    class ExampleExtensionTest {
+    
+        lateinit var url: String
+    
+        @BeforeEach
+        fun urlSetup(wmRuntimeInfo: WireMockRuntimeInfo) {
+            url = wmRuntimeInfo.httpBaseUrl
+        }
+    
+        @Test
+        fun `url equalTo`() {
+            mockGet {
+                url equalTo "/users/1"
+            } returns {
+                header = "Content-Type" to "application/json"
+                statusCode = 200
+                body = """
+                {
+                  "id": 1,
+                  "name": "Bob"
+                }
+                """
+            }
+    
+            When {
+                get("$url/users/1")
+            } Then {
+                statusCode(200)
+                body("id", equalTo(1))
+                body("name", equalTo("Bob"))
+            }
+        }
+    }
+    ```
 #### More examples
 
 * [Examples.kt](src/test/kotlin/com/marcinziolo/kotlin/wiremock/ExampleTest.kt)
