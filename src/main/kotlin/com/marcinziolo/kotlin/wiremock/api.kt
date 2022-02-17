@@ -12,21 +12,39 @@ typealias SpecifyRequest = RequestSpecification.() -> Unit
 typealias SpecifyResponse = ResponseSpecification.() -> Unit
 typealias Method = (UrlPathPattern) -> MappingBuilder
 
-fun WireMockServer.get(specifyRequest: SpecifyRequest) = requestBuilderStep(specifyRequest, WireMock::get)
-fun WireMockServer.post(specifyRequest: SpecifyRequest) = requestBuilderStep(specifyRequest, WireMock::post)
-fun WireMockServer.put(specifyRequest: SpecifyRequest) = requestBuilderStep(specifyRequest, WireMock::put)
-fun WireMockServer.patch(specifyRequest: SpecifyRequest) = requestBuilderStep(specifyRequest, WireMock::patch)
-fun WireMockServer.delete(specifyRequest: SpecifyRequest) = requestBuilderStep(specifyRequest, WireMock::delete)
-fun WireMockServer.head(specifyRequest: SpecifyRequest) = requestBuilderStep(specifyRequest, WireMock::head)
-fun WireMockServer.options(specifyRequest: SpecifyRequest) = requestBuilderStep(specifyRequest, WireMock::options)
-fun WireMockServer.trace(specifyRequest: SpecifyRequest) = requestBuilderStep(specifyRequest, WireMock::trace)
-fun WireMockServer.any(specifyRequest: SpecifyRequest) = requestBuilderStep(specifyRequest, WireMock::any)
+fun WireMockServer.get(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::get)
+fun WireMockServer.post(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::post)
+fun WireMockServer.put(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::put)
+fun WireMockServer.patch(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::patch)
+fun WireMockServer.delete(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::delete)
+fun WireMockServer.head(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::head)
+fun WireMockServer.options(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::options)
+fun WireMockServer.trace(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::trace)
+fun WireMockServer.any(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::any)
+fun mockGet(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::get)
+fun mockPost(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::post)
+fun mockPut(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::put)
+fun mockPatch(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::patch)
+fun mockDelete(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::delete)
+fun mockHead(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::head)
+fun mockOptions(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::options)
+fun mockTrace(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::trace)
+fun mockAny(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::any)
 
-private fun WireMockServer.requestBuilderStep(
+private fun WireMockServer.requestServerBuilderStep(
     specifyRequest: SpecifyRequest,
     method: Method
 ) = BuildingStep(
-    wireMockServer = this,
+    wireMockInstance = WiremockServerInstance(this),
+    method = method,
+    specifyRequestList = listOf(specifyRequest)
+)
+
+private fun requestDefaultBuilderStep(
+    specifyRequest: SpecifyRequest,
+    method: Method
+) = BuildingStep(
+    wireMockInstance = WiremockDefaultInstance,
     method = method,
     specifyRequestList = listOf(specifyRequest)
 )
@@ -61,7 +79,7 @@ infix fun ReturnsStep.and(specifyResponse: SpecifyResponse) =
 
 private fun BuildingStep.assignId(): BuildingStep {
     if (id != null) {
-        wireMockServer.removeStubMapping(wireMockServer.getSingleStubMapping(id))
+        wireMockInstance.removeStubMapping(wireMockInstance.getSingleStubMapping(id))
     }
     return this.copy(id = UUID.randomUUID())
 }
@@ -74,7 +92,7 @@ private fun BuildingStep.compute(): BuildingStep {
 
     requestSpecification copyScenariosAttributesFrom responseSpecification
 
-    wireMockServer.stubFor(
+    wireMockInstance.stubFor(
         requestSpecification
             .toMappingBuilder(method)
             .withId(id)
@@ -93,4 +111,3 @@ private infix fun RequestSpecification.copyScenariosAttributesFrom(
     toState = toState ?: responseSpecification.toState
     clearState = clearState || responseSpecification.clearState
 }
-
