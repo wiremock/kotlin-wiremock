@@ -39,6 +39,10 @@ infix fun ContainsStep<Constraint>.equalTo(value: Int) {
     this.map[this.key] = StronglyEqualTo(value)
 }
 
+infix fun ContainsStep<Constraint>.equalTo(value: Long) {
+    this.map[this.key] = StronglyEqualTo(value)
+}
+
 infix fun ContainsStep<Constraint>.equalTo(value: Boolean) {
     this.map[this.key] = StronglyEqualTo(value)
 }

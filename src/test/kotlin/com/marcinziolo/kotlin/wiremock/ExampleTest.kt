@@ -75,7 +75,7 @@ class ExampleTest : AbstractTest() {
     fun `body checking`() {
         wiremock.post {
             url equalTo "/users"
-            body contains "id" equalTo 1
+            body contains "id" equalTo 1L
             body contains "isAdmin" equalTo true
             body contains "points" equalTo 3.0
         } returnsJson bobResponse
