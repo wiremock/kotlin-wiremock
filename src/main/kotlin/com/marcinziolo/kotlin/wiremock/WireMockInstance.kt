@@ -23,3 +23,9 @@ class WiremockServerInstance(private val wireMockServer: WireMockServer): WireMo
     override fun removeStubMapping(stubMapping: StubMapping) = wireMockServer.removeStub(stubMapping)
     override fun getSingleStubMapping(uuid: UUID) = wireMockServer.getSingleStubMapping(uuid)
 }
+
+class WiremockClientInstance(private val wireMock: WireMock): WireMockInstance() {
+    override fun stubFor(mappingBuilder: MappingBuilder) = wireMock.register(mappingBuilder)
+    override fun removeStubMapping(stubMapping: StubMapping) = wireMock.removeStubMapping(stubMapping)
+    override fun getSingleStubMapping(uuid: UUID) = wireMock.getStubMapping(uuid).item
+}

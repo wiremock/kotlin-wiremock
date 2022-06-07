@@ -12,6 +12,15 @@ typealias SpecifyRequest = RequestSpecification.() -> Unit
 typealias SpecifyResponse = ResponseSpecification.() -> Unit
 typealias Method = (UrlPathPattern) -> MappingBuilder
 
+fun WireMock.get(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::get)
+fun WireMock.post(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::post)
+fun WireMock.put(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::put)
+fun WireMock.patch(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::patch)
+fun WireMock.delete(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::delete)
+fun WireMock.head(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::head)
+fun WireMock.options(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::options)
+fun WireMock.trace(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::trace)
+fun WireMock.any(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::any)
 fun WireMockServer.get(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::get)
 fun WireMockServer.post(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::post)
 fun WireMockServer.put(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::put)
@@ -31,7 +40,16 @@ fun mockOptions(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(spec
 fun mockTrace(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::trace)
 fun mockAny(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::any)
 
-private fun WireMockServer.requestServerBuilderStep(
+private fun WireMock.requestServerBuilderStep(
+        specifyRequest: SpecifyRequest,
+        method: Method
+) = BuildingStep(
+        wireMockInstance = WiremockClientInstance(this),
+        method = method,
+        specifyRequestList = listOf(specifyRequest)
+)
+
+fun WireMockServer.requestServerBuilderStep(
     specifyRequest: SpecifyRequest,
     method: Method
 ) = BuildingStep(
