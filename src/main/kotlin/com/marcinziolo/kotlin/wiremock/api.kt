@@ -53,10 +53,18 @@ infix fun BuildingStep.and(specifyRequest: SpecifyRequest) =
     copy(specifyRequestList = specifyRequestList + specifyRequest)
 
 infix fun BuildingStep.returnsJson(specifyResponse: SpecifyResponse) =
-    this returns {
-        statusCode = 200
-        header = "Content-Type" to "application/json"
-    } and specifyResponse
+        copy(specifyResponseList = specifyResponseList + {
+            statusCode = 200
+            header = "Content-Type" to "application/json"
+        } + specifyResponse)
+                .let {
+                    val returnsStep = ReturnsStep(it)
+                    returnsStep.buildingStep
+                            .assignId()
+                            .compute()
+                    returnsStep
+                }
+
 
 infix fun BuildingStep.returns(specifyResponse: SpecifyResponse) =
     copy(specifyResponseList = specifyResponseList + specifyResponse)
