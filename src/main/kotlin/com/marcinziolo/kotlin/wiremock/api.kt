@@ -21,6 +21,7 @@ fun WireMock.head(specifyRequest: SpecifyRequest) = requestServerBuilderStep(spe
 fun WireMock.options(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::options)
 fun WireMock.trace(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::trace)
 fun WireMock.any(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::any)
+fun WireMock.verify(block: VerificationDsl.VerifyDsl.() -> Unit) = verify(WiremockClientInstance(this), block)
 
 fun DslWrapper.get(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::get)
 fun DslWrapper.post(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::post)
@@ -31,6 +32,7 @@ fun DslWrapper.head(specifyRequest: SpecifyRequest) = requestServerBuilderStep(s
 fun DslWrapper.options(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::options)
 fun DslWrapper.trace(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::trace)
 fun DslWrapper.any(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::any)
+fun DslWrapper.verify(block: VerificationDsl.VerifyDsl.() -> Unit) = verify(WiremockDslWrapperInstance(this), block)
 
 fun WireMockServer.get(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::get)
 fun WireMockServer.post(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::post)
@@ -41,6 +43,7 @@ fun WireMockServer.head(specifyRequest: SpecifyRequest) = requestServerBuilderSt
 fun WireMockServer.options(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::options)
 fun WireMockServer.trace(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::trace)
 fun WireMockServer.any(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::any)
+fun WireMockServer.verify(block: VerificationDsl.VerifyDsl.() -> Unit) = verify(WiremockServerInstance(this), block)
 
 fun mockGet(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::get)
 fun mockPost(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::post)
@@ -51,6 +54,18 @@ fun mockHead(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specify
 fun mockOptions(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::options)
 fun mockTrace(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::trace)
 fun mockAny(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::any)
+fun verifyCalls(block: VerificationDsl.VerifyDsl.() -> Unit) = verify(WiremockDefaultInstance, block)
+
+private fun verify(wm: WireMockInstance, block: VerificationDsl.VerifyDsl.() -> Unit) {
+    val dsl = VerificationDsl.VerifyDsl()
+    dsl.block()
+    dsl.verifications.forEach {
+        val builderBlock = it.block
+        it.requestBuilder.builderBlock()
+        wm.verify(it.count, it.requestBuilder)
+    }
+}
+
 
 private fun WireMock.requestServerBuilderStep(
         specifyRequest: SpecifyRequest,
