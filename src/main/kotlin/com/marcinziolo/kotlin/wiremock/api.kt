@@ -3,12 +3,33 @@ package com.marcinziolo.kotlin.wiremock
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.MappingBuilder
 import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.junit.DslWrapper
 import com.github.tomakehurst.wiremock.matching.UrlPathPattern
 import java.util.UUID
 
 typealias SpecifyRequest = RequestSpecification.() -> Unit
 typealias SpecifyResponse = ResponseSpecification.() -> Unit
 typealias Method = (UrlPathPattern) -> MappingBuilder
+
+fun WireMock.get(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::get)
+fun WireMock.post(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::post)
+fun WireMock.put(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::put)
+fun WireMock.patch(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::patch)
+fun WireMock.delete(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::delete)
+fun WireMock.head(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::head)
+fun WireMock.options(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::options)
+fun WireMock.trace(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::trace)
+fun WireMock.any(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::any)
+
+fun DslWrapper.get(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::get)
+fun DslWrapper.post(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::post)
+fun DslWrapper.put(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::put)
+fun DslWrapper.patch(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::patch)
+fun DslWrapper.delete(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::delete)
+fun DslWrapper.head(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::head)
+fun DslWrapper.options(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::options)
+fun DslWrapper.trace(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::trace)
+fun DslWrapper.any(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::any)
 
 fun WireMockServer.get(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::get)
 fun WireMockServer.post(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::post)
@@ -29,7 +50,25 @@ fun mockOptions(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(spec
 fun mockTrace(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::trace)
 fun mockAny(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::any)
 
-private fun WireMockServer.requestServerBuilderStep(
+private fun WireMock.requestServerBuilderStep(
+        specifyRequest: SpecifyRequest,
+        method: Method
+) = BuildingStep(
+        wireMockInstance = WiremockClientInstance(this),
+        method = method,
+        specifyRequestList = listOf(specifyRequest)
+)
+
+private fun DslWrapper.requestServerBuilderStep(
+        specifyRequest: SpecifyRequest,
+        method: Method
+) = BuildingStep(
+        wireMockInstance = WiremockDslWrapperInstance(this),
+        method = method,
+        specifyRequestList = listOf(specifyRequest)
+)
+
+fun WireMockServer.requestServerBuilderStep(
     specifyRequest: SpecifyRequest,
     method: Method
 ) = BuildingStep(
@@ -42,7 +81,7 @@ private fun requestDefaultBuilderStep(
     specifyRequest: SpecifyRequest,
     method: Method
 ) = BuildingStep(
-    wireMockInstance = WiremockDefaultInstance,
+    wireMockInstance = WiremockDefaultInstance(),
     method = method,
     specifyRequestList = listOf(specifyRequest)
 )

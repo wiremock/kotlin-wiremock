@@ -33,14 +33,14 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    api("com.github.tomakehurst:wiremock:2.27.1")
+    api("com.github.tomakehurst:wiremock-jre8:2.33.2")
 
     testImplementation("io.rest-assured:rest-assured:4.3.0")
     testImplementation("io.rest-assured:json-path:4.3.0")
     testImplementation("io.rest-assured:kotlin-extensions:4.3.0")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
     testImplementation("io.mockk:mockk:1.10.0")
-    testImplementation("com.github.tomakehurst:wiremock-jre8:2.32.0")
+    testImplementation("com.github.tomakehurst:wiremock-jre8:2.33.2")
 }
 
 tasks.test {
