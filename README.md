@@ -157,37 +157,26 @@ Maven
    ```
 * WiremockTest Junit5 extension
     ```kotlin
-    @WireMockTest
-    class ExampleExtensionTest {
+    class Junit5RegisterExtensionTest {
     
-        lateinit var url: String
-    
-        @BeforeEach
-        fun urlSetup(wmRuntimeInfo: WireMockRuntimeInfo) {
-            url = wmRuntimeInfo.httpBaseUrl
-        }
+        @JvmField
+        @RegisterExtension
+        var wm = WireMockExtension.newInstance()
+                .options(wireMockConfig().dynamicPort())
+                .build()
     
         @Test
-        fun `url equalTo`() {
-            mockGet {
-                url equalTo "/users/1"
+        fun testGet() {
+            wm.get {
+                url equalTo "/hello"
             } returns {
-                header = "Content-Type" to "application/json"
                 statusCode = 200
-                body = """
-                {
-                  "id": 1,
-                  "name": "Bob"
-                }
-                """
             }
     
             When {
-                get("$url/users/1")
+                get("${wm.baseUrl()}/hello")
             } Then {
                 statusCode(200)
-                body("id", equalTo(1))
-                body("name", equalTo("Bob"))
             }
         }
     }

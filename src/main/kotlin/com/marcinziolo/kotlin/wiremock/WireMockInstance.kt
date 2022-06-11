@@ -13,7 +13,7 @@ interface WireMockInstance {
     fun getSingleStubMapping(uuid: UUID): StubMapping
 }
 
-class WiremockDefaultInstance: WireMockInstance {
+object WiremockDefaultInstance: WireMockInstance {
     override fun stubFor(mappingBuilder: MappingBuilder) = WireMock.stubFor(mappingBuilder)
     override fun removeStubMapping(stubMapping: StubMapping) = WireMock.removeStub(stubMapping)
     override fun getSingleStubMapping(uuid: UUID) = WireMock.getSingleStubMapping(uuid)

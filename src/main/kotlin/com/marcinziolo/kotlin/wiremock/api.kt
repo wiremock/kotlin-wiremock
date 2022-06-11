@@ -1,3 +1,4 @@
+@file:SuppressWarnings("TooManyFunctions")
 package com.marcinziolo.kotlin.wiremock
 
 import com.github.tomakehurst.wiremock.WireMockServer
@@ -40,6 +41,7 @@ fun WireMockServer.head(specifyRequest: SpecifyRequest) = requestServerBuilderSt
 fun WireMockServer.options(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::options)
 fun WireMockServer.trace(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::trace)
 fun WireMockServer.any(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::any)
+
 fun mockGet(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::get)
 fun mockPost(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::post)
 fun mockPut(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyRequest, WireMock::put)
@@ -81,7 +83,7 @@ private fun requestDefaultBuilderStep(
     specifyRequest: SpecifyRequest,
     method: Method
 ) = BuildingStep(
-    wireMockInstance = WiremockDefaultInstance(),
+    wireMockInstance = WiremockDefaultInstance,
     method = method,
     specifyRequestList = listOf(specifyRequest)
 )
