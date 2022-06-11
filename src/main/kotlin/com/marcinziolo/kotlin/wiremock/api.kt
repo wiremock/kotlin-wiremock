@@ -62,19 +62,21 @@ infix fun BuildingStep.returns(specifyResponse: SpecifyResponse) =
     copy(specifyResponseList = specifyResponseList + specifyResponse)
         .let {
             val returnsStep = ReturnsStep(it)
-            returnsStep.buildingStep
-                .assignId()
-                .compute()
-            returnsStep
+            returnsStep.copy(
+                buildingStep = returnsStep.buildingStep
+                    .assignId()
+                    .compute()
+            )
         }
 
 infix fun ReturnsStep.and(specifyResponse: SpecifyResponse) =
     copy(buildingStep = buildingStep.copy(specifyResponseList = buildingStep.specifyResponseList + specifyResponse))
         .let {
-            it.buildingStep
-                .assignId()
-                .compute()
-            it
+            it.copy(
+                buildingStep = it.buildingStep
+                    .assignId()
+                    .compute()
+            )
         }
 
 private fun BuildingStep.assignId(): BuildingStep {
