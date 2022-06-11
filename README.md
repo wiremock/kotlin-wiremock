@@ -197,6 +197,7 @@ Maven
 * [Examples.kt](src/test/kotlin/com/marcinziolo/kotlin/wiremock/ExampleTest.kt)
 * [JUnit4 example](kotlin-wiremock-examples/src/test/kotlin/com/marcinziolo/kotlin/wiremock/JUnit4ExampleTest.kt)
 * [Junit5 base class](src/test/kotlin/com/marcinziolo/kotlin/wiremock/AbstractTest.kt)
+* [WithBuilderTests](src/test/kotlin/com/marcinziolo/kotlin/wiremock/otherPackage/WithBuilderTest.kt) - extension point for using original wiremock api and its extensions(like webhooks)
 
 ### Compatibility
 

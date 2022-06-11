@@ -1,6 +1,5 @@
 package com.marcinziolo.kotlin.wiremock
 
-import com.github.tomakehurst.wiremock.client.MappingBuilder
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder
 
 class ResponseSpecification {
@@ -25,6 +24,7 @@ class ResponseSpecification {
         builders.add(block)
     }
 
+    @SuppressWarnings("SpreadOperator")
     fun decorateResponseDefinitionBuilder(
             responseDefinitionBuilder: ResponseDefinitionBuilder
     ): ResponseDefinitionBuilder {
