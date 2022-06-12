@@ -9,7 +9,7 @@ class RequestQueryParamsTest : AbstractTest() {
     @Test
     fun `queryParams contains negative`() {
         wiremock.get {
-            url equalTo "/hello"
+            urlPath equalTo "/hello"
             queryParams contains "any"
         } returns {
             statusCode = 200
@@ -23,8 +23,24 @@ class RequestQueryParamsTest : AbstractTest() {
     }
 
     @Test
-    fun `queryParams contains positive`() {
+    fun `queryParams contains negative2`() {
         wiremock.get {
+            urlPath equalTo "/hello2"
+            queryParams contains "filter"
+        } returns {
+            statusCode = 200
+        }
+        When {
+            get("$url/hello?filter=true")
+        } Then {
+            statusCode(404)
+        }
+    }
+
+    @Test
+    fun `queryParams precedence`() {
+        wiremock.get {
+            urlPath equalTo "/hello"
             url equalTo "/hello"
             queryParams contains "filter"
         } returns {
@@ -33,14 +49,14 @@ class RequestQueryParamsTest : AbstractTest() {
         When {
             get("$url/hello?filter=true")
         } Then {
-            statusCode(200)
+            statusCode(404)
         }
     }
 
     @Test
     fun `queryParams contains equalTo negative`() {
         wiremock.get {
-            url equalTo "/hello"
+            urlPath equalTo "/hello"
             queryParams contains "filter" equalTo "true"
         } returns {
             statusCode = 200
@@ -56,7 +72,7 @@ class RequestQueryParamsTest : AbstractTest() {
     @Test
     fun `queryParams contains equalTo positive`() {
         wiremock.get {
-            url equalTo "/hello"
+            urlPath equalTo "/hello"
 
 
         } returns {
@@ -73,7 +89,7 @@ class RequestQueryParamsTest : AbstractTest() {
     @Test
     fun `queryParams contains like positive`() {
         wiremock.get {
-            url equalTo "/hello"
+            urlPath equalTo "/hello"
             queryParams contains "filter" like "[rute]*"
         } returns {
             statusCode = 200
@@ -91,7 +107,7 @@ class RequestQueryParamsTest : AbstractTest() {
     @Test
     fun `queryParams contains like negative`() {
         wiremock.get {
-            url equalTo "/hello"
+            urlPath equalTo "/hello"
             queryParams contains "filter" like "[tru]*"
         } returns {
             statusCode = 200
