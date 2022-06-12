@@ -100,6 +100,21 @@ class ExampleTest : AbstractTest() {
     }
 
     @Test
+    fun `queryParams`() {
+        wiremock.get {
+            urlPath equalTo "/hello"
+            queryParams contains "filter"
+        } returns {
+            statusCode = 200
+        }
+        When {
+            get("$url/hello?filter=true")
+        } Then {
+            statusCode(200)
+        }
+    }
+
+    @Test
     fun `and`() {
         wiremock.post {
             url equalTo "/users"

@@ -2,7 +2,13 @@ package com.marcinziolo.kotlin.wiremock
 
 import com.github.tomakehurst.wiremock.client.MappingBuilder
 import com.github.tomakehurst.wiremock.client.WireMock
+import com.github.tomakehurst.wiremock.client.WireMock.notMatching
+import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
+import com.github.tomakehurst.wiremock.client.WireMock.urlMatching
+import com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo
+import com.github.tomakehurst.wiremock.client.WireMock.urlPathMatching
 import com.github.tomakehurst.wiremock.matching.UrlPathPattern
+import com.github.tomakehurst.wiremock.matching.UrlPattern
 import com.github.tomakehurst.wiremock.stubbing.Scenario
 
 class RequestSpecification {
@@ -10,7 +16,8 @@ class RequestSpecification {
     var toState: String? = null
     var clearState: Boolean = false
     var priority = 1
-    val url = EqualTo("").wrap(StringConstraint::class)
+    val urlPath = Whatever.wrap(StringConstraint::class)
+    val url = Whatever.wrap(StringConstraint::class)
     val headers: MutableMap<String, StringConstraint> = mutableMapOf()
     val body: MutableMap<String, Constraint> = mutableMapOf()
     val cookies: MutableMap<String, StringConstraint> = mutableMapOf()
@@ -21,8 +28,9 @@ class RequestSpecification {
         builders.add(block)
     }
 
+    @SuppressWarnings("ComplexMethod")
     internal fun toMappingBuilder(method: Method): MappingBuilder =
-            urlBuilder(method)
+        urlBuilder(method)
                     .also { headersBuilder(it) }
                     .also { bodyBuilder(it) }
                     .also { cookieBuilder(it) }
@@ -41,13 +49,20 @@ class RequestSpecification {
         }
     }
 
-    private fun urlBuilder(method: Method): MappingBuilder =
-            when (val url = url.value) {
-                is EqualTo -> method(WireMock.urlPathEqualTo(url.value))
-                is Like -> method(WireMock.urlPathMatching(url.value))
-                is NotLike -> method(UrlPathPattern(WireMock.notMatching(url.value), true))
-                is Whatever -> method(WireMock.urlPathMatching(".*"))
-            }
+    private fun urlBuilder(method: Method): MappingBuilder = when (val url = url.value) {
+        is EqualTo -> method(urlEqualTo(url.value))
+        is Like -> method(urlMatching(url.value))
+        is NotLike -> method(UrlPattern(notMatching(url.value), true))
+        is Whatever -> urlPathBuilder(method)
+    }
+
+    private fun urlPathBuilder(method: Method): MappingBuilder =
+        when (val urlPath = urlPath.value) {
+            is EqualTo -> method(urlPathEqualTo(urlPath.value))
+            is Like -> method(urlPathMatching(urlPath.value))
+            is NotLike -> method(UrlPathPattern(notMatching(urlPath.value), true))
+            is Whatever -> method(urlPathMatching(".*"))
+        }
 
     private fun headersBuilder(mappingBuilder: MappingBuilder) {
         headers.forEach {
@@ -98,7 +113,7 @@ class RequestSpecification {
             when (stringConstraint) {
                 is EqualTo -> WireMock.equalTo(stringConstraint.value)
                 is Like -> WireMock.matching(stringConstraint.value)
-                is NotLike -> WireMock.notMatching(stringConstraint.value)
+                is NotLike -> notMatching(stringConstraint.value)
                 is Whatever -> WireMock.matching(".*")
             }
 

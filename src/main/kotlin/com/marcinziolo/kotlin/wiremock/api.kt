@@ -5,12 +5,12 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.MappingBuilder
 import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.junit.DslWrapper
-import com.github.tomakehurst.wiremock.matching.UrlPathPattern
+import com.github.tomakehurst.wiremock.matching.UrlPattern
 import java.util.UUID
 
 typealias SpecifyRequest = RequestSpecification.() -> Unit
 typealias SpecifyResponse = ResponseSpecification.() -> Unit
-typealias Method = (UrlPathPattern) -> MappingBuilder
+typealias Method = (UrlPattern) -> MappingBuilder
 
 fun WireMock.get(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::get)
 fun WireMock.post(specifyRequest: SpecifyRequest) = requestServerBuilderStep(specifyRequest, WireMock::post)
