@@ -73,8 +73,7 @@ class RequestQueryParamsTest : AbstractTest() {
     fun `queryParams contains equalTo positive`() {
         wiremock.get {
             urlPath equalTo "/hello"
-
-
+            queryParams contains "filter" equalTo "true"
         } returns {
             statusCode = 200
         }
