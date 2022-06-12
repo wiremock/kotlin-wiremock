@@ -30,7 +30,7 @@ class RequestSpecification {
 
     @SuppressWarnings("ComplexMethod")
     internal fun toMappingBuilder(method: Method): MappingBuilder =
-        urlResolver(method)
+        urlBuilder(method)
                     .also { headersBuilder(it) }
                     .also { bodyBuilder(it) }
                     .also { cookieBuilder(it) }
@@ -49,14 +49,11 @@ class RequestSpecification {
         }
     }
 
-    private fun urlResolver(method: Method): MappingBuilder =
-        if(url.value is Whatever) urlPathBuilder(method) else urlBuilder(method)
-
     private fun urlBuilder(method: Method): MappingBuilder = when (val url = url.value) {
         is EqualTo -> method(urlEqualTo(url.value))
         is Like -> method(urlMatching(url.value))
         is NotLike -> method(UrlPattern(notMatching(url.value), true))
-        is Whatever -> method(urlMatching(".*"))
+        is Whatever -> urlPathBuilder(method)
     }
 
     private fun urlPathBuilder(method: Method): MappingBuilder =

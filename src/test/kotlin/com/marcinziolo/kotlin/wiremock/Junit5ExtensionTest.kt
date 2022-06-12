@@ -35,5 +35,18 @@ class Junit5ExtensionTest {
         }
     }
 
+    @Test
+    fun testPost() {
+        wm.post {
+            url equalTo "/hello"
+        } returns {
+            statusCode = 200
+        }
 
+        When {
+            post("$baseUrl/hello")
+        } Then {
+            statusCode(200)
+        }
+    }
 }

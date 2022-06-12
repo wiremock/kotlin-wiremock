@@ -140,7 +140,7 @@ class RequestQueryParamsTest : AbstractTest() {
     @Test
     fun `urlPathLike negative`() {
         wiremock.get {
-            urlPath like "/hel.{1}"
+            urlPath notLike  "/hel.{1}"
         } returns {
             statusCode = 200
         }
@@ -148,7 +148,7 @@ class RequestQueryParamsTest : AbstractTest() {
         When {
             get("$url/hello")
         } Then {
-            statusCode(404)
+            statusCode(200)
         }
     }
 
