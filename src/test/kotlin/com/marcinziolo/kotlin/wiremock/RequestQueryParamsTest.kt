@@ -120,4 +120,50 @@ class RequestQueryParamsTest : AbstractTest() {
             statusCode(404)
         }
     }
+
+
+    @Test
+    fun `urlPathLike`() {
+        wiremock.get {
+            urlPath like "/hell.*"
+        } returns {
+            statusCode = 200
+        }
+
+        When {
+            get("$url/hello")
+        } Then {
+            statusCode(200)
+        }
+    }
+
+    @Test
+    fun `urlPathLike negative`() {
+        wiremock.get {
+            urlPath like "/hel.{1}"
+        } returns {
+            statusCode = 200
+        }
+
+        When {
+            get("$url/hello")
+        } Then {
+            statusCode(404)
+        }
+    }
+
+    @Test
+    fun `onlyQueryParams`() {
+        wiremock.get {
+            queryParams contains "filter"
+        } returns {
+            statusCode = 200
+        }
+
+        When {
+            get("$url/whatever?filter=true")
+        } Then {
+            statusCode(200)
+        }
+    }
 }
