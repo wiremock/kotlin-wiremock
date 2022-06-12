@@ -154,14 +154,14 @@ class RequestQueryParamsTest : AbstractTest() {
 
     @Test
     fun `onlyQueryParams`() {
-        wiremock.get {
+        wiremock.post {
             queryParams contains "filter"
         } returns {
             statusCode = 200
         }
 
         When {
-            get("$url/whatever?filter=true")
+            post("$url/whatever?filter=true")
         } Then {
             statusCode(200)
         }
