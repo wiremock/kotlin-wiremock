@@ -29,6 +29,10 @@ class ExampleTest : AbstractTest() {
             body("id", equalTo(1))
             body("name", equalTo("Bob"))
         }
+
+        wiremock.verify {
+            url equalTo "/users/1"
+        } exactly 1
     }
 
     @Test

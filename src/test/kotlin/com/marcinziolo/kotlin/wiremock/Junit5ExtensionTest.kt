@@ -33,6 +33,10 @@ class Junit5ExtensionTest {
         } Then {
             statusCode(200)
         }
+
+        wm.verify {
+            url equalTo "/hello"
+        } exactly 1
     }
 
     @Test
