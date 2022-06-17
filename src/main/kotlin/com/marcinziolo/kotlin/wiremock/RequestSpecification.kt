@@ -1,7 +1,6 @@
 package com.marcinziolo.kotlin.wiremock
 
 import com.github.tomakehurst.wiremock.client.MappingBuilder
-import com.github.tomakehurst.wiremock.client.WireMock
 import com.github.tomakehurst.wiremock.client.WireMock.notMatching
 import com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo
 import com.github.tomakehurst.wiremock.client.WireMock.urlMatching
@@ -83,21 +82,8 @@ class RequestSpecification {
     }
 
     private fun bodyBuilder(mappingBuilder: MappingBuilder) {
-        body.forEach {
-            val jsonRegex: String = when (val constraint = it.value) {
-                is EqualTo -> "\$[?(@.${it.key} === '${constraint.value}')]"
-                is StronglyEqualTo<*> -> "\$[?(@.${it.key} === ${constraint.value})]"
-                is Like -> "\$[?(@.${it.key} =~ /${constraint.value}/i)]"
-                is NotLike -> "\$[?(!(@.${it.key} =~ /${constraint.value}/i))]"
-                is Whatever -> "\$.${it.key}"
-                is EqualToJson -> constraint.value
-            }
-            if (it.value !is EqualToJson) {
-                mappingBuilder.withRequestBody(WireMock.matchingJsonPath(jsonRegex))
-            } else {
-                mappingBuilder.withRequestBody(WireMock.equalToJson(jsonRegex))
-            }
-        }
+        body.toStringValuePatterns()
+            .forEach { mappingBuilder.withRequestBody(it) }
     }
 
     private fun cookieBuilder(mappingBuilder: MappingBuilder) {
@@ -108,14 +94,6 @@ class RequestSpecification {
             )
         }
     }
-
-    private fun getStringValuePattern(stringConstraint: StringConstraint) =
-            when (stringConstraint) {
-                is EqualTo -> WireMock.equalTo(stringConstraint.value)
-                is Like -> WireMock.matching(stringConstraint.value)
-                is NotLike -> notMatching(stringConstraint.value)
-                is Whatever -> WireMock.matching(".*")
-            }
 
 
     companion object {
