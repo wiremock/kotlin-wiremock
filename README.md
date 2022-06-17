@@ -169,7 +169,7 @@ Maven
    wm.verify {
      urlPath equalTo "/users/1"
      exactly = 1
-   } moreThan 2 //lessThan lessThanOrEqual moreThanOrEeuqal
+   } moreThan 2 //lessThan lessThanOrEqual  moreThanOrEqual
   
    //atLeast atMost
    wm.verify {
