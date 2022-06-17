@@ -27,6 +27,10 @@ class AndExtensionTest {
         } Then {
             statusCode(200)
         }
+
+        verifyCalls {
+            url equalTo "/hello"
+        }
     }
 
     @Test

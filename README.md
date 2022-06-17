@@ -156,6 +156,24 @@ Maven
         clearState = true
     }
    ```
+* Verification api
+   ```kotlin
+    wm.verify {
+       headers contains "User-Agent" equalTo "curl"
+       queryParams contains "filter" equalTo "true"
+       cookies contains "cookieKey" equalTo "cookieValue"
+       body contains "pet" equalTo "dog"
+   } exactly 1
+  
+   wm.verify {
+     urlPath equalTo "/users/1"
+   } moreThan 2 //lessThan lessThanOrEqual moreThanOrEeuqal
+  
+   wm.verify {
+     urlPath equalTo "/users/1"
+   } between 1 and 3
+   ```  
+
 * WiremockTest Junit5 extension
     ```kotlin
     class Junit5RegisterExtensionTest {
@@ -187,6 +205,7 @@ Maven
 * [Examples.kt](src/test/kotlin/com/marcinziolo/kotlin/wiremock/ExampleTest.kt)
 * [JUnit4 example](kotlin-wiremock-examples/src/test/kotlin/com/marcinziolo/kotlin/wiremock/JUnit4ExampleTest.kt)
 * [Junit5 base class](src/test/kotlin/com/marcinziolo/kotlin/wiremock/AbstractTest.kt)
+* [Verification test cases](src/test/kotlin/com/marcinziolo/kotlin/wiremock/Verify.kt)
 * [WithBuilderTests](src/test/kotlin/com/marcinziolo/kotlin/wiremock/otherPackage/WithBuilderTest.kt) - extension point for using original wiremock api and its extensions(like webhooks)
 
 ### Compatibility
@@ -197,4 +216,5 @@ The Library is compatible with Wiremock - 2.8.0 and higher
 
 | Version | Notes |
 | :---: | :--- |
+| 1.1.0 | Introduced DSL for [verfication API](https://wiremock.org/docs/verifying/)  |
 | 1.0.5 | In version 1.0.4 `url` argument (eg.`url equalTo "/hello"`) was treated as a path and matches only a path of url, which was wrong and misleading, in version 1.0.5 it was fixed and new keyword `urlPath` was introduced for matching a path of url (eg.`urlPath equalTo "/hello"`). Note: `url` has precedence in case both are specified |

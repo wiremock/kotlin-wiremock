@@ -121,6 +121,17 @@ class VerifyTest {
     }
 
     @Test
+    fun `verify withBuilders`() {
+        stubWiremock()
+        performCall()
+        performCall()
+
+        wm.verify {
+            withBuilder { withUrl("/users/1") }
+        } between  1 and 2
+    }
+
+    @Test
     fun `verify method`() {
         stubWiremock()
         performCall()
@@ -217,6 +228,7 @@ class VerifyTest {
             cookies contains  "cookieKey" equalTo "cookieValue"
             body contains "pet" equalTo "dog"
         } exactly 1
+
 
         assertThrows<VerificationException> {
             wm.verify {
