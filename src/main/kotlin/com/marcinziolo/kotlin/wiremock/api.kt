@@ -57,10 +57,12 @@ fun mockAny(specifyRequest: SpecifyRequest) = requestDefaultBuilderStep(specifyR
 fun verifyCalls(block: VerifySpecification.() -> Unit) = verify(WiremockDefaultInstance, block)
 
 
-private fun verify(wiremockInstance: WireMockInstance, block: VerifySpecification.() -> Unit): CountStep {
+private fun verify(wiremockInstance: WireMockInstance, block: VerifySpecification.() -> Unit) {
     val verifySpecification = VerifySpecification()
     verifySpecification.block()
-    return CountStep(wiremockInstance, verifySpecification.toRequestPatternBuilder())
+    val countingStrategies = verifySpecification.toCountMatchingStrategyList()
+    val requestPatternBuilder = verifySpecification.toRequestPatternBuilder()
+    countingStrategies.forEach { wiremockInstance.verify(it, requestPatternBuilder) }
 }
 
 private fun WireMock.requestServerBuilderStep(

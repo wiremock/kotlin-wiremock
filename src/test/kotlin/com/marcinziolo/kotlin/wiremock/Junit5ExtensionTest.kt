@@ -36,7 +36,7 @@ class Junit5ExtensionTest {
 
         wm.verify {
             url equalTo "/hello"
-        } exactly 1
+        }
     }
 
     @Test
