@@ -32,7 +32,8 @@ class ExampleTest : AbstractTest() {
 
         wiremock.verify {
             url equalTo "/users/1"
-        } exactly 1
+            exactly = 1
+        }
     }
 
     @Test

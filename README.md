@@ -163,15 +163,20 @@ Maven
        queryParams contains "filter" equalTo "true"
        cookies contains "cookieKey" equalTo "cookieValue"
        body contains "pet" equalTo "dog"
-   } exactly 1
+   }
   
+   //exactly
    wm.verify {
      urlPath equalTo "/users/1"
+     exactly = 1
    } moreThan 2 //lessThan lessThanOrEqual moreThanOrEeuqal
   
+   //atLeast atMost
    wm.verify {
      urlPath equalTo "/users/1"
-   } between 1 and 3
+     atLeast = 1
+     atMost = 3
+   }
    ```  
 
 * WiremockTest Junit5 extension
@@ -216,5 +221,6 @@ The Library is compatible with Wiremock - 2.8.0 and higher
 
 | Version | Notes |
 | :---: | :--- |
+| 2.0.0 | Breaking change for verification DSL - changed api for specifying counting  |
 | 1.1.0 | Introduced DSL for [verfication API](https://wiremock.org/docs/verifying/)  |
 | 1.0.5 | In version 1.0.4 `url` argument (eg.`url equalTo "/hello"`) was treated as a path and matches only a path of url, which was wrong and misleading, in version 1.0.5 it was fixed and new keyword `urlPath` was introduced for matching a path of url (eg.`urlPath equalTo "/hello"`). Note: `url` has precedence in case both are specified |
