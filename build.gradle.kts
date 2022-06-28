@@ -2,7 +2,7 @@ import com.jfrog.bintray.gradle.BintrayExtension
 import nu.studer.gradle.credentials.domain.CredentialsContainer
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.5.10"
+    id("org.jetbrains.kotlin.jvm") version "1.6.0"
     id("maven-publish")
     id("io.gitlab.arturbosch.detekt") version "1.17.1"
     jacoco
@@ -35,11 +35,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     api("com.github.tomakehurst:wiremock-jre8:2.33.2")
 
-    testImplementation("io.rest-assured:rest-assured:4.3.0")
-    testImplementation("io.rest-assured:json-path:4.3.0")
-    testImplementation("io.rest-assured:kotlin-extensions:4.3.0")
+    testImplementation("io.rest-assured:rest-assured:5.1.1")
+    testImplementation("io.rest-assured:json-path:5.1.1")
+    testImplementation("io.rest-assured:kotlin-extensions:5.1.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
-    testImplementation("io.mockk:mockk:1.10.0")
+    testImplementation("io.mockk:mockk:1.12.4")
     testImplementation("com.github.tomakehurst:wiremock-jre8:2.33.2")
 }
 
