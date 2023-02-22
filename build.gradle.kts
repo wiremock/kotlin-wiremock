@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "com.marcinziolo"
-version = "2.0.1"
+version = "2.0.2"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
@@ -40,7 +40,6 @@ dependencies {
     testImplementation("io.rest-assured:kotlin-extensions:5.1.1")
     testImplementation("org.junit.jupiter:junit-jupiter:5.6.2")
     testImplementation("io.mockk:mockk:1.12.4")
-    testImplementation("com.github.tomakehurst:wiremock:3.0.0-beta-2")
 }
 
 tasks.test {

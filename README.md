@@ -219,8 +219,9 @@ The Library is compatible with Wiremock - 2.8.0 and higher
 
 ### Release notes
 
-| Version | Notes |
-| :---: | :--- |
-| 2.0.0 | Breaking change for verification DSL - changed api for specifying counting  |
-| 1.1.0 | Introduced DSL for [verfication API](https://wiremock.org/docs/verifying/)  |
-| 1.0.5 | In version 1.0.4 `url` argument (eg.`url equalTo "/hello"`) was treated as a path and matches only a path of url, which was wrong and misleading, in version 1.0.5 it was fixed and new keyword `urlPath` was introduced for matching a path of url (eg.`urlPath equalTo "/hello"`). Note: `url` has precedence in case both are specified |
+| Version | Notes                                                                                                                                                                                                                                                                                                                                      |
+|:-------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|  2.0.2  | Supports wiremock 3.0.0 and Jetty 11                                                                                                                                                                                                                                                                                                       |
+|  2.0.0  | Breaking change for verification DSL - changed api for specifying counting                                                                                                                                                                                                                                                                 |
+|  1.1.0  | Introduced DSL for [verfication API](https://wiremock.org/docs/verifying/)                                                                                                                                                                                                                                                                 |
+|  1.0.5  | In version 1.0.4 `url` argument (eg.`url equalTo "/hello"`) was treated as a path and matches only a path of url, which was wrong and misleading, in version 1.0.5 it was fixed and new keyword `urlPath` was introduced for matching a path of url (eg.`urlPath equalTo "/hello"`). Note: `url` has precedence in case both are specified |
