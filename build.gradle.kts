@@ -33,7 +33,7 @@ dependencies {
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    api("com.github.tomakehurst:wiremock:3.0.0-beta-2")
+    api("org.wiremock:wiremock-standalone:3.2.0")
 
     testImplementation("io.rest-assured:rest-assured:5.1.1")
     testImplementation("io.rest-assured:json-path:5.1.1")
