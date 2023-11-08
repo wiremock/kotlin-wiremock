@@ -15,7 +15,7 @@ plugins {
 }
 
 group = "com.marcinziolo"
-version = "2.0.2"
+version = "2.1.0git"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
