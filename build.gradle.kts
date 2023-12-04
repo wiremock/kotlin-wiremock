@@ -85,8 +85,8 @@ publishing {
                 }
             }
             pom {
-                name.set("Kotlin Wiremock")
-                description.set("Handy Kotlin DSL for Wiremock stubbing")
+                name.set("Kotlin WireMock")
+                description.set("Handy Kotlin DSL for WireMock stubbing")
                 url.set("https://github.com/marcinziolo/kotlin-wiremock")
                 licenses {
                     license {
@@ -134,7 +134,7 @@ bintray {
         websiteUrl = "https://github.com/marcinziolo/kotlin-wiremock"
         githubRepo = "marcinziolo/kotlin-wiremock"
         vcsUrl = "https://github.com/marcinziolo/kotlin-wiremock"
-        description = "Handy Kotlin DSL for Wiremock stubbing"
+        description = "Handy Kotlin DSL for WireMock stubbing"
         setLabels("kotlin")
         setLicenses("Apache-2.0")
         desc = description

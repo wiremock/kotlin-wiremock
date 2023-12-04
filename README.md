@@ -1,10 +1,11 @@
-# Kotlin DSL for Wiremock
+# Kotlin DSL for WireMock
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.marcinziolo/kotlin-wiremock/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.marcinziolo/kotlin-wiremock)
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/wiremock/kotlin-wiremock/workflow.yaml)
 [![codecov](https://codecov.io/gh/marcinziolo/kotlin-wiremock/branch/master/graph/badge.svg)](https://codecov.io/gh/marcinziolo/kotlin-wiremock)
 
-This is library provides handy kotlin dsl for [Wiremock](http://wiremock.org/) stubbing.
+This is library provides handy kotlin dsl for [WireMock](http://wiremock.org/) stubbing.
+Read more about WireMock and Kotlin [here](https://wiremock.org/docs/solutions/kotlin/).
 
 ### Getting started
 
@@ -180,7 +181,7 @@ Maven
    }
    ```  
 
-* WiremockTest Junit5 extension
+* WiremMckTest Junit5 extension
     ```kotlin
     class Junit5RegisterExtensionTest {
     
@@ -216,13 +217,13 @@ Maven
 
 ### Compatibility
 
-The Library is compatible with Wiremock - 2.8.0 and higher
+The Library is compatible with WireMock - 2.8.0 and higher
 
 ### Release notes
 
 | Version | Notes                                                                                                                                                                                                                                                                                                                                      |
 |:-------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-|  2.0.2  | Supports wiremock 3.0.0 and Jetty 11                                                                                                                                                                                                                                                                                                       |
+|  2.0.2  | Supports WireMock 3.0.0 and Jetty 11                                                                                                                                                                                                                                                                                                       |
 |  2.0.0  | Breaking change for verification DSL - changed api for specifying counting                                                                                                                                                                                                                                                                 |
 |  1.1.0  | Introduced DSL for [verfication API](https://wiremock.org/docs/verifying/)                                                                                                                                                                                                                                                                 |
 |  1.0.5  | In version 1.0.4 `url` argument (eg.`url equalTo "/hello"`) was treated as a path and matches only a path of url, which was wrong and misleading, in version 1.0.5 it was fixed and new keyword `urlPath` was introduced for matching a path of url (eg.`urlPath equalTo "/hello"`). Note: `url` has precedence in case both are specified |
